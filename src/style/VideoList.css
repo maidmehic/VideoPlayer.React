@@ -1,0 +1,10 @@
+.video-list{
+    width: 100%;
+    flex: 1;
+}
+
+@media(max-width: 1040px) {
+    .video-list {
+       margin-top: 20px;
+    }
+}

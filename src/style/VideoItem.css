@@ -1,0 +1,36 @@
+.video-item{
+    display: flex;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.video-item:hover{
+    box-shadow: 0 0 7px rgba(0,0,0,0.15);
+}
+
+.video-item img{
+    max-width: 180px;
+}
+
+h5{
+    margin-bottom: 0;
+}
+
+.video-details{
+    display: flex;
+    flex-direction: column;
+    margin-left: 7px;
+}
+
+.video-some-details{
+    color: grey;
+    font-size: 9pt;
+}
+
+label:last-child{
+    font-size: 8pt;
+}
+
+label{
+    cursor: pointer;
+}
