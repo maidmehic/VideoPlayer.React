@@ -1,64 +1,58 @@
 import React from 'react';
 import SearchBar from './component/SearchBar';
-import { getVideosByQuery } from './service/youtubeApi';
 import VideoList from './component/VideoList';
 import Spinner from './component/Spinner';
 import VideoPlayer from './component/VideoPlayer';
 import './App.css';
 
+import { connect } from 'react-redux';
+import { getVideosByQuery } from './service/youtubeApi';
+import { gotVideosFromApi, selectVideo } from './actions';
+
 
 class App extends React.Component {
 
-  state = { videos: [], selectedVideo: null, isfetchingDataFromApi: false };
+  state = { isfetchingDataFromApi: true };
 
-  async onVideoSearchSubmit(query) {//we don't need to use async/await here as we already use promises
+  async getVideosFromApi(searchQuery) {
     this.setState({ isfetchingDataFromApi: true });
 
-    await getVideosByQuery(query)
+    await getVideosByQuery(searchQuery)
       .then((res) => {
-        console.log(res.data.items);
-        this.setState({ videos: res.data.items, selectedVideo: res.data.items[0] });
+        this.setState({ isfetchingDataFromApi: false });
+        this.props.gotVideosFromApi(res.data.items);
+
+        if (res.data.items.length > 0)
+          this.props.selectVideo(res.data.items[0]);
+        else
+          this.props.selectVideo(null);
+
       })
       .catch((err) => {
         console.log(err);
-      })
-
-    this.setState({ isfetchingDataFromApi: false });
-  }
-
-  componentDidMount() {
-    this.onVideoSearchSubmit('');
-  }
-
-  onVideoSelect(video) {
-    this.setState({ selectedVideo: video });
+      });
   }
 
   render() {
     return (
       <div>
         <div className="ui container yt-main">
-          <SearchBar onSubmit={(e) => this.onVideoSearchSubmit(e)}></SearchBar>
+          <SearchBar onSubmit={(query) => this.getVideosFromApi(query)}></SearchBar>
 
           <div className="wrapper">
             <VideoPlayer
-              selectedVideo={this.state.selectedVideo}
               isfetchingDataFromApi={this.state.isfetchingDataFromApi}>
             </VideoPlayer>
 
-
             <VideoList
-              isfetchingDataFromApi={this.state.isfetchingDataFromApi}
-              videos={this.state.videos}
-              onVideoSelect={(video) => this.onVideoSelect(video)}>
+              isfetchingDataFromApi={this.state.isfetchingDataFromApi}>
             </VideoList>
           </div>
-
           <Spinner isfetchingDataFromApi={this.state.isfetchingDataFromApi}></Spinner>
         </div>
-      </div>
+      </div >
     );
   }
 }
 
-export default App;
+export default connect(null, { gotVideosFromApi, selectVideo })(App);

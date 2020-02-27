@@ -6,7 +6,7 @@ class VideoItem extends React.Component {
 
     render() {
         return (
-            <div className="video-item" onClick={() => this.props.onVideoSelect(this.props.video)}>
+            <div className="video-item">
                 <img alt="" src={this.props.video.snippet.thumbnails.medium.url}></img>
                 <div className="video-details">
                     <h5 dangerouslySetInnerHTML={{ __html: this.props.video.snippet.title }}></h5>

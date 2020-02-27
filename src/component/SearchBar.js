@@ -2,18 +2,20 @@ import React from 'react';
 
 class SearchBar extends React.Component {
 
-    constructor() {
-        super();
-        this.state = { query: '' };
+    searchQuery = '';
+
+    componentDidMount() {
+        this.onFormSubmit();
     }
 
-    onFormSubmit(e) {
-        e.preventDefault();
-        this.props.onSubmit(this.state.query);
+    onFormSubmit(e = null) {
+        if (e)
+            e.preventDefault();
+        this.props.onSubmit(this.searchQuery);
     }
 
     onInputChange(e) {
-        this.setState({ query: e.target.value });
+        this.searchQuery = e.target.value;
     }
 
     render() {
@@ -24,10 +26,9 @@ class SearchBar extends React.Component {
                         <input
                             type="text"
                             placeholder="Search videos..."
-                            value={this.state.query}
                             onChange={(e) => this.onInputChange(e)}
                         />
-                        <i onClick={(e) => this.onFormSubmit(e)} className="circular search link icon"></i>
+                        <i onClick={() => this.onFormSubmit()} className="circular search link icon"></i>
                     </div>
                 </form>
             </div>

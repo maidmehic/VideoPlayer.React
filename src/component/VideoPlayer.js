@@ -1,16 +1,17 @@
 import React from 'react';
 
-const VideoPlayer = ({ selectedVideo, isfetchingDataFromApi }) => {
+import { connect } from 'react-redux';
 
-    const rendered = selectedVideo && !isfetchingDataFromApi
+const VideoPlayer = (props) => {
+    const rendered = props.selectedVideo && !props.isfetchingDataFromApi
         ?
         <div style={{ marginRight: '15px', flex: '2' }}>
             <div className="ui embed">
-                <iframe title={selectedVideo.snippet.title} src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`} frameBorder="0" allowFullScreen></iframe>
+                <iframe title={props.selectedVideo.snippet.title} src={`https://www.youtube.com/embed/${props.selectedVideo.id.videoId}`} frameBorder="0" allowFullScreen></iframe>
             </div>
             <div className="ui segment">
-                <h4 dangerouslySetInnerHTML={{ __html: selectedVideo.snippet.title }}></h4>
-                <p dangerouslySetInnerHTML={{ __html: selectedVideo.snippet.description }}></p>
+                <h4 dangerouslySetInnerHTML={{ __html: props.selectedVideo.snippet.title }}></h4>
+                <p dangerouslySetInnerHTML={{ __html: props.selectedVideo.snippet.description }}></p>
             </div>
         </div>
         :
@@ -21,4 +22,7 @@ const VideoPlayer = ({ selectedVideo, isfetchingDataFromApi }) => {
     );
 }
 
-export default VideoPlayer;
+const mapStateToProps = (state) => {
+    return { selectedVideo: state.selectedVideo };
+}
+export default connect(mapStateToProps)(VideoPlayer);
