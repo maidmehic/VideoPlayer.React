@@ -4,11 +4,13 @@ import '../style/VideoList.css'
 
 import { connect } from 'react-redux';
 import { selectVideo } from '../actions';
+import { scrollToTop } from '../helper';
 
 class VideoList extends React.Component {
 
     onSelectVideo(video) {
         this.props.selectVideo(video);
+        scrollToTop();
     }
 
     render() {

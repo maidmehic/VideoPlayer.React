@@ -8,6 +8,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import { getVideosByQuery } from './service/youtubeApi';
 import { gotVideosFromApi, selectVideo, gotVideosFromApiNextPage } from './actions';
+import BackToTop from './component/BackToTop';
 
 
 class App extends React.Component {
@@ -73,6 +74,8 @@ class App extends React.Component {
               loadMore={() => this.loadMore()}
               isfetchingDataFromApi={this.state.isfetchingDataFromApi}>
             </VideoList>
+
+            <BackToTop></BackToTop>
           </div>
           <Spinner isfetchingDataFromApi={this.state.isfetchingDataFromApi}></Spinner>
         </div>
