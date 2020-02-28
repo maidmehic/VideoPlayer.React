@@ -7,25 +7,46 @@ import './App.css';
 
 import { connect } from 'react-redux';
 import { getVideosByQuery } from './service/youtubeApi';
-import { gotVideosFromApi, selectVideo } from './actions';
+import { gotVideosFromApi, selectVideo, gotVideosFromApiNextPage } from './actions';
 
 
 class App extends React.Component {
 
   state = { isfetchingDataFromApi: true };
+  _searchQuery = '';
+  _nextPageToken = '';
 
-  async getVideosFromApi(searchQuery) {
-    this.setState({ isfetchingDataFromApi: true });
+  componentDidMount() {
+    this.getVideosFromApi('', '');
+  }
 
-    await getVideosByQuery(searchQuery)
+  onSearchSubmit(searchQuery) {
+    this._searchQuery = searchQuery;
+    this._nextPageToken = '';
+    this.getVideosFromApi(this._searchQuery, '');
+  }
+
+  async getVideosFromApi(searchQuery, nextPageToken) {
+    if (!nextPageToken)//dont show loader when loading more videos
+      this.setState({ isfetchingDataFromApi: true });
+
+    await getVideosByQuery(searchQuery, nextPageToken)
       .then((res) => {
-        this.setState({ isfetchingDataFromApi: false });
-        this.props.gotVideosFromApi(res.data.items);
 
-        if (res.data.items.length > 0)
-          this.props.selectVideo(res.data.items[0]);
-        else
-          this.props.selectVideo(null);
+        this._nextPageToken = res.data.nextPageToken;
+
+        if (nextPageToken)//if user clicked Load More
+          this.props.gotVideosFromApiNextPage(res.data.items);
+        else {
+          this.props.gotVideosFromApi(res.data.items);
+
+          this.setState({ isfetchingDataFromApi: false });
+
+          if (res.data.items.length > 0)
+            this.props.selectVideo(res.data.items[0]);
+          else
+            this.props.selectVideo(null);
+        }
 
       })
       .catch((err) => {
@@ -33,11 +54,15 @@ class App extends React.Component {
       });
   }
 
+  loadMore() {
+    this.getVideosFromApi(this._searchQuery, this._nextPageToken);
+  }
+
   render() {
     return (
       <div>
         <div className="ui container yt-main">
-          <SearchBar onSubmit={(query) => this.getVideosFromApi(query)}></SearchBar>
+          <SearchBar onSubmit={(query) => this.onSearchSubmit(query)}></SearchBar>
 
           <div className="wrapper">
             <VideoPlayer
@@ -45,6 +70,7 @@ class App extends React.Component {
             </VideoPlayer>
 
             <VideoList
+              loadMore={() => this.loadMore()}
               isfetchingDataFromApi={this.state.isfetchingDataFromApi}>
             </VideoList>
           </div>
@@ -55,4 +81,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(null, { gotVideosFromApi, selectVideo })(App);
+export default connect(null, { gotVideosFromApi, selectVideo, gotVideosFromApiNextPage })(App);

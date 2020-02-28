@@ -4,7 +4,11 @@ const videosReducer = (videos = [], action) => {
     if (action.type === 'GOT_VIDEOS_FROM_API')
         return action.payload;
 
-    return videos;
+    else if (action.type === 'GOT_VIDEOS_FROM_API_NEXT_PAGE')
+        return videos.concat(action.payload)
+
+    else
+        return videos;
 };
 
 const selectedVideoReducer = (video = null, action) => {

@@ -4,10 +4,6 @@ class SearchBar extends React.Component {
 
     searchQuery = '';
 
-    componentDidMount() {
-        this.onFormSubmit();
-    }
-
     onFormSubmit(e = null) {
         if (e)
             e.preventDefault();

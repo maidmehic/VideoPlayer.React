@@ -12,6 +12,7 @@ class VideoList extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         if (this.props.isfetchingDataFromApi)
             return null;
         else if (this.props.videos.length === 0)
@@ -28,6 +29,8 @@ class VideoList extends React.Component {
                         );
                     })
                 }
+
+                <button onClick={() => this.props.loadMore()} className="fluid ui button">Load more</button>
             </div>
 
         );
