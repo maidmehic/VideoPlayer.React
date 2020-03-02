@@ -12,6 +12,13 @@ export const gotVideosFromApiNextPage = videos => {
     };
 };
 
+export const gotComments = comments => {
+    return {
+        type: 'GOT_COMMENTS',
+        payload: comments
+    };
+};
+
 export const selectVideo = video => {
     return {
         type: 'SELECT_VIDEO',

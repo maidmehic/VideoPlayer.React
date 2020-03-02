@@ -18,8 +18,16 @@ const selectedVideoReducer = (video = null, action) => {
     return video;
 };
 
+const commentsReducer = (comments = [], action) => {
+    if (action.type === 'GOT_COMMENTS')
+        return action.payload;
+
+    return comments;
+};
+
 export default combineReducers({
     videos: videosReducer,
-    selectedVideo: selectedVideoReducer
+    selectedVideo: selectedVideoReducer,
+    comments: commentsReducer
 });
 

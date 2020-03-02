@@ -1,0 +1,22 @@
+.hideComments{
+    max-height: 0px;
+    overflow: hidden;
+    -webkit-transition:max-height 500ms ease;
+    transition:max-height 500ms ease;
+}
+
+.showComments{
+    max-height: 1000px;
+    overflow: hidden;
+    -webkit-transition:max-height 850ms ease;
+    transition:max-height 850ms ease;
+}
+
+.ui.dividing.header{
+    margin-bottom: 0 !important;
+}
+
+.toggle-icon{
+    transition: all 0.4s ease;
+    font-size: 1.1em !important;
+}

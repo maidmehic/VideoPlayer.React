@@ -14,7 +14,6 @@ class VideoList extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         if (this.props.isfetchingDataFromApi)
             return null;
         else if (this.props.videos.length === 0)
