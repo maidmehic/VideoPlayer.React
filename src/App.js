@@ -10,7 +10,6 @@ import { getVideosByQuery } from './service/youtubeApi';
 import { gotVideosFromApi, selectVideo, gotVideosFromApiNextPage } from './actions';
 import BackToTop from './component/BackToTop';
 
-
 class App extends React.Component {
 
   state = { isfetchingDataFromApi: true };

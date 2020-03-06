@@ -14,7 +14,6 @@ class VideoPlayer extends React.Component {
     }
 
     getVideoComments() {
-
         if (this.props.selectedVideo && !this.isLoadingFromService && this.lastLoadedCommentsVideoId !== this.props.selectedVideo.id.videoId) {
             this.isLoadingFromService = true;
             getCommentsByVideoId(this.props.selectedVideo.id.videoId)
@@ -25,7 +24,7 @@ class VideoPlayer extends React.Component {
                 })
                 .catch(err => {
                     this.isLoadingFromService = false;
-                    console.log(err)
+                    this.props.gotComments([]);
                 })
         }
     }
