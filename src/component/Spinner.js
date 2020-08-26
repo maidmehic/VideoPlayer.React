@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Spinner = (props) => {
+const Spinner = ({ isfetchingDataFromApi }) => {
 
-    if (props.isfetchingDataFromApi)
+    if (isfetchingDataFromApi)
         return (
             <div className="ui active centered inline loader"></div>
         );

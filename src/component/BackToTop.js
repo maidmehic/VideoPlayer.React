@@ -1,48 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../style/BackToTop.css';
 import { scrollToTop } from '../helper';
 
 
-class BackToTop extends React.Component {
+const BackToTop = () => {
 
-    state = { showButton: false }
-    onBackToTop() {
+    const [showButton, setShowButton] = useState(false);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true })
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    const onBackToTop = () => {
         scrollToTop();
     };
 
-    componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll, { passive: true })
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll)
-    }
-
-    handleScroll = () => {
+    const handleScroll = () => {
         if (document.documentElement.scrollTop > 100) {
-            if (!this.state.showButton)
-                this.setState({ showButton: true });
+            if (!showButton)
+                setShowButton(true)
         } else {
-            if (this.state.showButton)
-                this.setState({ showButton: false });
+            if (showButton)
+                setShowButton(false)
         }
     }
 
-    render() {
-        return (
-            <div>
-                {
-                    this.state.showButton ?
-                        <button onClick={() => this.onBackToTop()} className="ui icon button back-to-top">
-                            <i className="angle up icon"></i>
-                        </button>
-                        :
-                        null
-                }
-            </div>
+    return (
+        <div>
+            {
+                showButton ?
+                    <button onClick={() => onBackToTop()} className="ui icon button back-to-top">
+                        <i className="angle up icon"></i>
+                    </button>
+                    :
+                    null
+            }
+        </div>
 
-        );
-    }
+    );
 };
 
 export default BackToTop;
